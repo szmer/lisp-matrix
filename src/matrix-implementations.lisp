@@ -84,8 +84,10 @@
   "Return the LISP-MATRIX-TYPE corresponding to the lisp type
   LISP-TYPE."
   (let ((info (lisp-type-info lisp-type)))
-    (when (type-info-p info)
-      (type-info-lisp-matrix-type info))))
+    (if (type-info-p info)
+      (type-info-lisp-matrix-type info)
+      (error
+        "Native Lisp matrices with this element type aren't implemented."))))
 
 (defun lisp-matrix-type->lisp-type (lisp-matrix-type)
   "Return the lisp type corresponding to LISP-MATRIX-TYPE."
