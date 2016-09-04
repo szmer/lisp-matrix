@@ -14,7 +14,13 @@
                              (string arg)))
                          args))))
 
-
 ;;; (make-symbol* "test" "me")        =>   |testme| , :INTERNAL
 ;;; (make-symbol* "test" 'metoo "me") =>   |testMETOOme| , :INTERNAL
 ;;; (make-symbol* "TEsT" 'metoo "me") =>   |TEsTMETOOme| , :INTERNAL
+
+(defun with-pkg-prefix (symb)
+  "Wrap SYMB with lisp-matrix package prefix, which ensures the correct value
+  is found when referencing the SYMB from an external package."
+  `,(read-from-string (concatenate 'string
+                                   "LISP-MATRIX:"
+                                   (symbol-name symb))))

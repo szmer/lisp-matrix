@@ -48,7 +48,7 @@
                          (initial-element nil initial-element-p))
   (if (or (= nrows 1) (= ncols 1)) ;; make a vector if 1-dim
       (make-instance
-       (la-vector-class element-type)
+       (with-pkg-prefix (la-vector-class element-type))
        :nrows nrows
        :ncols ncols
        :data (apply #'make-array (* nrows ncols)
@@ -56,7 +56,7 @@
                     (when initial-element-p
                       (list :initial-element initial-element))))
       (make-instance
-       (la-matrix-class element-type)
+       (with-pkg-prefix (la-matrix-class element-type))
        :nrows nrows
        :ncols ncols
        :data (apply #'make-array (* nrows ncols)
@@ -106,7 +106,7 @@
 
   (defun la-matrix-class (element-type &optional (type :simple))
     "Return the LA-MATRIX class name corresponding to ELEMENT-TYPE."
-    (matrix-class type :lisp-array element-type))
+      (matrix-class type :lisp-array element-type))
 
   (defun la-vector-class (element-type &optional (type :simple))
     "Return the LA-VECTOR class name corresponding to ELEMENT-TYPE."
