@@ -876,3 +876,29 @@ element-type)."
 ;;; Local Variables:
 ;;; outline-regexp: ";;;; \\*\\|("
 ;;; End:
+
+;;;; * Dimensions adjustment (numpy-style broadcasting)
+
+; bad Lisp-level implementation for now, just make it work
+
+(defgeneric broadcast-cols (a coln)
+            (:documentation "Broadcast one-colum matrix A to COLN columns."))
+
+(defmethod broadcast-cols ((a matrix-like) (coln integer))
+  (assert (= (ncols a) 1))
+  (let ((a* (make-matrix (nrows a) coln :implementation (implementation a)
+                         :element-type (element-type a))))
+    (dotimes (i (nrows a) a*) (dotimes (j coln a*)
+                                (setf (mref a* i j)
+                                      (mref a i 0))))))
+
+(defgeneric broadcast-rows (a coln)
+            (:documentation "Broadcast one-row matrix A to ROWN rows."))
+
+(defmethod broadcast-rows ((a matrix-like) (rown integer))
+  (assert (= (nrows a) 1))
+  (let ((a* (make-matrix rown (ncols a) :implementation (implementation a)
+                         :element-type (element-type a))))
+    (dotimes (i rown a*) (dotimes (j (ncols a) a*)
+                                (setf (mref a* i j)
+                                      (mref a 0 j))))))

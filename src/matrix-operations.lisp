@@ -28,11 +28,14 @@
   Better approach would be to consider lowest-common-type?")
   (:method ((a matrix-like) (b matrix-like))
     (assert (= (ncols a) (nrows b))) ;; insist on squareness...
-    (with-typed-values ((one 1)
+    ; alpha and beta in BLAS gemm function call, which basically gives
+    ; A*B*alpha + beta*C:
+    (with-typed-values ((one 1) 
                         (zero 0)) a
+      ; TODO it'd be nice to be able to use C for biases (instead of 0'ing)
       (let ((c (make-matrix (nrows a) (ncols b)
                             :element-type (element-type a))))
-        (gemm one a b zero c)))))
+          (gemm one a b zero c)))))
 
 (defgeneric m+ (a b)
   (:documentation "Matrix addition: A + B.")

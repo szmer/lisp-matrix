@@ -337,3 +337,27 @@
 	  (ensure (v= (nth i col-list)
 		      (ones 2 1))))))))
 
+
+(addtest (lisp-matrix-ut-matrix)
+  rows-broadcast
+  (for-all-implementations
+    (let ((ma-small (zeros 1 10))
+          (ma-big (zeros 7 10))
+          (mb-small (ones 1 12))
+          (mb-big (ones 8 12)))
+      (ensure (m= (broadcast-rows ma-small 7)
+                  ma-big))
+      (ensure (m= (broadcast-rows mb-small 8)
+                  mb-big)))))
+
+(addtest (lisp-matrix-ut-matrix)
+  columns-broadcast
+  (for-all-implementations
+    (let ((ma-small (zeros 10 1))
+          (ma-big (zeros 10 7))
+          (mb-small (ones 12 1))
+          (mb-big (ones 12 8)))
+      (ensure (m= (broadcast-cols ma-small 7)
+                  ma-big))
+      (ensure (m= (broadcast-cols mb-small 8)
+                  mb-big)))))

@@ -45,6 +45,8 @@
    copy copy! copy*
    copy-maybe copy-maybe*
    fill-matrix
+
+   broadcast-rows broadcast-cols
    
    m= m* m+ m-
    m.* m.+ m.- 
